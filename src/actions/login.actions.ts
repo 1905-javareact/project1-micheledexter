@@ -37,7 +37,7 @@ export const login = (username: string, password: string, history: History) => a
         },
         type: loginTypes.SUCCESSFUL_LOGIN
       });
-      history.push('/barf');
+      history.push('/dashboard/' + user.role.role);
     } else {
       dispatch({
         type: loginTypes.FAILED_LOGIN

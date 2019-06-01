@@ -13,6 +13,7 @@ import Logout from './components/logout/logout.component';
 import Users from './components/users/users.component';
 import { Provider } from 'react-redux';
 import { store } from './Store';
+import Dashboard from './components/dashboard/dashboard.component';
 
 
 
@@ -34,6 +35,10 @@ const App: React.FC = () => {
             <Route
               path="/logout"
               component={Logout}
+            />
+            <Route
+              path="/dashboard"
+              component={Dashboard}
             />
             <Route
               path="/users"

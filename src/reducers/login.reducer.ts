@@ -1,10 +1,12 @@
-import { ILoginState, state } from '.';
+import { ILoginState } from '.';
 import { loginTypes } from '../actions/login.actions';
 import { User } from '../models/user';
-import { Role } from '../models/role';
+import { getUser } from '../utilities/cook';
+
+let user: User = getUser();
 
 const initialState: ILoginState = {
-  currentUser: new User(-1, '', '', '', '', '', new Role(-1, '')),
+  currentUser: user,
   message: ''
 };
 
@@ -15,14 +17,12 @@ export const loginReducer = (state = initialState, action: any) => {
         ...state,
         message: 'Invalid Credentials'
       }
-      break;
 
     case (loginTypes.FAILED_LOGIN):
       return {
         ...state,
         message: "Failed to log in... You broke something, didn't you?"
       }
-      break;
 
     case (loginTypes.SUCCESSFUL_LOGIN):
       return {
@@ -30,7 +30,6 @@ export const loginReducer = (state = initialState, action: any) => {
         currentUser: action.payload.user,
         message: 'Login Successful'
       }
-      break;
 
     default:
   }
