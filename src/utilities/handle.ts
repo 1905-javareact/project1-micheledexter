@@ -1,9 +1,18 @@
 import { AxiosError } from "axios";
+import { History } from "history";
 
-export const checkPermission = (props: any, error: AxiosError) => {
+export const checkPermission = (history: History, error: AxiosError) => {
   if (error.message === 'Request failed with status code 401') {
-    props.history.push('401');
+    history.push('401');
   } else if (error.message === 'Request failed with status code 403') {
-    props.history.push('403');
+    history.push('403');
+  } else if (error.message === 'Request failed with status code 400') {
+    history.push('400');
+  }
+}
+
+export const checkStatus = (status: number, history: History) => {
+  if ([400, 401, 403].includes(status)) {
+    history.push(status.toString());
   }
 }

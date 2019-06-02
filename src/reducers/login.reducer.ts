@@ -1,7 +1,7 @@
 import { ILoginState } from '.';
 import { loginTypes } from '../actions/login.actions';
 import { User } from '../models/user';
-import { getUser } from '../utilities/cook';
+import { getUser } from '../utilities/construct';
 
 let user: User = getUser();
 

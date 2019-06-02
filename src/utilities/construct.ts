@@ -2,7 +2,6 @@ import { User } from '../models/user';
 import { Role } from '../models/role';
 import cookies from 'js-cookie';
 
-
 export const getUser = () => {
   let user: User;
   let cookie = cookies.get('user');

@@ -2,6 +2,7 @@ import { History } from "history";
 import { Dispatch } from "redux";
 import axios, { AxiosResponse } from 'axios';
 import { User } from "../models/user";
+import { checkPermission } from "../utilities/handle";
 
 export const loginTypes = {
   INVALID_CREDENTIALS: 'LOGIN_INVALID_CREDENTIALS',
@@ -44,7 +45,7 @@ export const login = (username: string, password: string, history: History) => a
       });
     }
   } catch(err) {
-    console.log(`Something went wrong somewhere:\n${err}`);
+    checkPermission(history, err);
   }
 };
 

@@ -7,6 +7,7 @@ import { User } from '../../models/user';
 import { History } from 'history';
 import { IState } from '../../reducers';
 import { connect } from 'react-redux';
+import Navbar from '../../components/navbar/navbar.component';
 
 interface IDashboardProps {
   currentUser: User;
@@ -18,6 +19,7 @@ class Dashboard extends Component<IDashboardProps, any> {
   render() {
     return (
       <div className='dashboard'>
+        <Navbar history={this.props.history}/>
         <BrowserRouter>
           <Switch>
             <Route

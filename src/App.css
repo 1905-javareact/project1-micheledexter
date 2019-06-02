@@ -31,3 +31,15 @@
     transform: rotate(360deg);
   }
 }
+
+img.senor-squirrel {
+  width: 44px;
+  height: 62px;
+}
+
+.Navbar {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.2em;
+  padding: 0.2em;
+}

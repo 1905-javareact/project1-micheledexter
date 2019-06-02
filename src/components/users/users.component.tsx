@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import axios, { AxiosResponse, AxiosError } from 'axios';
 import { User } from '../../models/user';
-import { checkPermission } from '../../utilities/handle';
+import { checkStatus } from '../../utilities/handle';
+import { userApiClient } from '../../axios/user-api-client';
 
 interface IUsersState {
   users: User[]
@@ -14,20 +14,17 @@ class Users extends Component<any, IUsersState> {
       users: []
     }
   }
-  
-  getAllUsers = () => {
-    axios({
-      method: 'GET',
-      url: 'http://localhost:5000/users',
-      withCredentials: true
-    }).then((response: AxiosResponse<User[]>) => {
+
+  getAllUsers = async () => {
+    try {
+      const response = await userApiClient('/users');
+      checkStatus(response.status, this.props.history);
       this.setState({
         users: response.data
       });
-    }).catch((error: AxiosError) => {
-      console.log(`Something went wrong: ${error.message}`);
-      checkPermission(this.props, error);
-    });
+    } catch(e) {
+      console.log(e);
+    }
   }
 
   componentDidMount() {
@@ -37,7 +34,7 @@ class Users extends Component<any, IUsersState> {
   render() {
     const {users} = this.state;
     return (
-      <div>
+      <div className='AllUsers'>
         <h1>List of all users and their data</h1>
         <table className='table'>
           <thead>

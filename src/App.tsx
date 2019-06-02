@@ -45,6 +45,10 @@ const App: React.FC = () => {
               component={Users}
             />
             <Route 
+              path="/400"
+              render={() => <h1>400: Bad Request</h1>}
+            />
+            <Route 
               path="/401"
               render={() => <h1>401: Unauthorized</h1>} 
             />
