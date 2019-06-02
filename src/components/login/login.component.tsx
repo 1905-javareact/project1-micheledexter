@@ -64,7 +64,7 @@ class Login extends Component<ILoginProps, ILoginState> {
 
   render() {
     return (
-      <div>
+      <div className="Login">
         <div className="login-form">
           <form onSubmit={this.handleLogin}>
             <h2 className="text-center">Log in</h2>
@@ -93,31 +93,6 @@ class Login extends Component<ILoginProps, ILoginState> {
             </div>
           </form>
         </div>
-        {/* <form onSubmit={this.handleLogin}>
-          <label htmlFor="username" id="textUsername">Username:</label>
-          <input
-            type="text"
-            name="username"
-            value={this.state.username}
-            className="loginInput"
-            onChange={this.onChangeUsername}
-          />
-          <br/>
-          <label htmlFor="password" id="textPassword">Password:</label>
-          <input
-            type="password"
-            name="password"
-            value={this.state.password}
-            className="loginInput"
-            onChange={this.onChangePassword}
-          />
-          <br/>
-          <input
-            type="submit"
-            name="submit"
-            value="Log In"
-          />
-        </form> */}
       </div>
     )
   }

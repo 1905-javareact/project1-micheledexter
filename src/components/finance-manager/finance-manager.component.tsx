@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { IState } from '../../reducers';
+import Users from '../users/users.component';
 
 interface IFinanceManagerProps {
 }
 
-class FinanceManager extends Component<IFinanceManagerProps, any> {
+
+class FinanceManager extends Component<any, any> {
+
+  componentDidMount() {
+    console.log(this.props);
+  }
   render() {
     return (
       <div className="FinanceManager">
-        Component
+        <Users />
       </div>
     );
   }

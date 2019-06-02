@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import Employee from '../employee/employee.component';
 import FinanceManager from '../finance-manager/finance-manager.component'
 import Admin from '../admin/admin.component';
@@ -7,7 +7,8 @@ import { User } from '../../models/user';
 import { History } from 'history';
 import { IState } from '../../reducers';
 import { connect } from 'react-redux';
-import Navbar from '../../components/navbar/navbar.component';
+import NavbaraltComponent from '../navbar/navbaralt.component';
+import { EditUser } from '../edituser/edituser.component';
 
 interface IDashboardProps {
   currentUser: User;
@@ -19,23 +20,25 @@ class Dashboard extends Component<IDashboardProps, any> {
   render() {
     return (
       <div className='dashboard'>
-        <Navbar history={this.props.history}/>
-        <BrowserRouter>
+        <NavbaraltComponent history={this.props.history}/>
           <Switch>
             <Route
-              path='/employee' 
+              path='/dashboard/employee' 
               component={Employee}
             />
             <Route 
-              path='/finance-manager'
+              path='/dashboard/finance-manager'
               component={FinanceManager}
             />
             <Route
-              path='/admin'
+              path='/dashboard/admin'
               component={Admin}
             />
+            <Route
+              path="/dashboard/edituser/:id"
+              component={EditUser}
+            />
           </Switch>
-        </BrowserRouter>
       </div>
     )
   }

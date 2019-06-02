@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import { User } from '../../models/user';
 import { checkStatus } from '../../utilities/handle';
 import { apiClient } from '../../axios/user-api-client';
+import { History } from 'history';
 
-interface IUsersState {
+interface IUsersAdminProps {
+  history: History
+}
+
+interface IUsersAdminState {
   users: User[]
 }
 
-class Users extends Component<any, IUsersState> {
+class UsersAdmin extends Component<IUsersAdminProps, IUsersAdminState> {
   constructor(props: any){
     super(props);
     this.state = {
@@ -25,6 +30,10 @@ class Users extends Component<any, IUsersState> {
     } catch(e) {
       console.log(e);
     }
+  }
+
+  editUser = (user: number) => {
+    this.props.history.push('/dashboard/edituser/' + user);
   }
 
   componentDidMount() {
@@ -45,6 +54,7 @@ class Users extends Component<any, IUsersState> {
               <th>Last Name</th>
               <th>Email</th>
               <th>Role</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -57,6 +67,7 @@ class Users extends Component<any, IUsersState> {
                   <td>{user.lastName}</td>
                   <td>{user.email}</td>
                   <td>{user.role.role}</td>
+                  <td><input type="button" value="Edit" onClick={() => this.editUser(user.userId)} /></td>
                 </tr>
               )
             })}
@@ -68,4 +79,4 @@ class Users extends Component<any, IUsersState> {
   }
 }
 
-export default Users;
+export default UsersAdmin;

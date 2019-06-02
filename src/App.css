@@ -43,3 +43,7 @@ img.senor-squirrel {
   margin: 0.2em;
   padding: 0.2em;
 }
+
+.box-shadow {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
