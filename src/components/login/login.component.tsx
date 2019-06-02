@@ -6,6 +6,7 @@ import { History } from 'history';
 import { IState } from '../../reducers';
 import { login } from '../../actions/login.actions';
 import { connect } from 'react-redux';
+import './login.component.css';
 
 interface ILoginState {
   username: string;
@@ -47,29 +48,6 @@ class Login extends Component<ILoginProps, ILoginState> {
 
   private submitLogin = async (): Promise<any> => {
     this.props.login(this.state.username, this.state.password, this.props.history);
-    // let login = await fetch('http://localhost:5000/login', {
-    //   method: 'POST',
-    //   mode: 'cors',
-    //   cache: 'no-cache',
-    //   credentials: 'include',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   redirect: 'error',
-    //   referrer: 'client',
-    //   body: JSON.stringify({
-    //     username: this.state.username,
-    //     password: this.state.password
-    //   })
-    // });
-    // let response: Promise<any> = new Promise<any>(()=>{});
-    // try {
-    //   response = await login.json();
-    //   this.setState({user: response, token: Cookies.get('token')});
-    //   this.props.history.push('barf');
-    // } catch(e) {
-    //   console.log('Invalid credentials');
-    // }
   }
 
   onChangeUsername = (event: ChangeEvent<HTMLInputElement>) => {
@@ -87,7 +65,35 @@ class Login extends Component<ILoginProps, ILoginState> {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleLogin}>
+        <div className="login-form">
+          <form onSubmit={this.handleLogin}>
+            <h2 className="text-center">Log in</h2>
+            <div className="form-group">
+              <input 
+                type="text" 
+                name="username"
+                value={this.state.username}
+                onChange={this.onChangeUsername}
+                className="form-control" 
+                placeholder="Username" 
+                required={true} />
+            </div>
+            <div className="form-group">
+              <input 
+                type="password" 
+                name="password"
+                value={this.state.password}
+                onChange={this.onChangePassword}
+                className="form-control" 
+                placeholder="Password" 
+                required={true} />
+            </div>
+            <div className="form-group">
+              <button type="submit" className="btn btn-primary btn-block">Log in</button>
+            </div>
+          </form>
+        </div>
+        {/* <form onSubmit={this.handleLogin}>
           <label htmlFor="username" id="textUsername">Username:</label>
           <input
             type="text"
@@ -111,7 +117,7 @@ class Login extends Component<ILoginProps, ILoginState> {
             name="submit"
             value="Log In"
           />
-        </form>
+        </form> */}
       </div>
     )
   }
