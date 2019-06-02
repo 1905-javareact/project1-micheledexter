@@ -3,7 +3,6 @@ import { apiClient } from '../../axios/user-api-client';
 import { checkStatus } from '../../utilities/handle';
 import { User } from '../../models/user';
 import { Role } from '../../models/role';
-import axios from 'axios';
 
 export class EditUser extends Component<any, any> {
   constructor(props: any) {
@@ -20,7 +19,8 @@ export class EditUser extends Component<any, any> {
           role: '',
           roleId: -1,
         },
-      }
+      },
+      change: false
     }
   }
   
@@ -109,13 +109,10 @@ export class EditUser extends Component<any, any> {
   }
 
   patchUser = async (user: User) => {
-    try {
-      const response = await apiClient.patch('/users', user);
-      checkStatus(response.status, this.props.history);
-      return response.data;
-    } catch(e) {
-      console.log(e);
-    }
+    const response = await apiClient.patch('/users', user);
+    this.setState({
+      change: true
+    });
   }
 
   componentDidMount() {
@@ -172,6 +169,7 @@ export class EditUser extends Component<any, any> {
             <option value="finance-manager" selected={this.state.user.role.role === 'finance-manager'}>Finance Manager</option>
             <option value="employee" selected={this.state.user.role.role === 'employee'}>Employee</option>
           </select><br />
+          {this.state.change ? <p>Updated!</p>: ''}
           <input type="submit" value="Submit" />
         </form>
       </div>
