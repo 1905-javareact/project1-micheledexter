@@ -109,7 +109,7 @@ export class EditUser extends Component<any, any> {
   }
 
   patchUser = async (user: User) => {
-    const response = await apiClient.patch('/users', user);
+    await apiClient.patch('/users', user);
     this.setState({
       change: true
     });
@@ -123,7 +123,7 @@ export class EditUser extends Component<any, any> {
   render() {
     return (
       <div className="EditUser">
-        <form onSubmit={this.submitChange}>
+        <form className="form" onSubmit={this.submitChange}>
           <label htmlFor="username">Username:&nbsp;</label>
           <input 
             name="username" 

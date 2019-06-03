@@ -2,20 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { IState } from '../../reducers';
 import Users from '../users/users.component';
+import { History } from 'history';
 
 interface IFinanceManagerProps {
+  history: History
 }
 
 
-class FinanceManager extends Component<any, any> {
+class FinanceManager extends Component<IFinanceManagerProps, any> {
 
-  componentDidMount() {
-    console.log(this.props);
-  }
   render() {
     return (
       <div className="FinanceManager">
-        <Users />
+        <Users history={this.props.history} />
       </div>
     );
   }

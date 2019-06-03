@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import { User } from '../../models/user';
 import { checkStatus } from '../../utilities/handle';
 import { apiClient } from '../../axios/user-api-client';
+import { History } from 'history';
 
+interface IUsersProps {
+  history: History
+}
 interface IUsersState {
   users: User[]
 }
 
-class Users extends Component<any, IUsersState> {
+class Users extends Component<IUsersProps, IUsersState> {
   constructor(props: any){
     super(props);
     this.state = {
@@ -25,6 +29,10 @@ class Users extends Component<any, IUsersState> {
     } catch(e) {
       console.log(e);
     }
+  }
+
+  viewUser = (user: number) => {
+    this.props.history.push('/dashboard/viewuser/' + user);
   }
 
   componentDidMount() {
@@ -45,6 +53,7 @@ class Users extends Component<any, IUsersState> {
               <th>Last Name</th>
               <th>Email</th>
               <th>Role</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -57,6 +66,7 @@ class Users extends Component<any, IUsersState> {
                   <td>{user.lastName}</td>
                   <td>{user.email}</td>
                   <td>{user.role.role}</td>
+                  <td><input type="button" value="View" onClick={() => this.viewUser(user.userId)} /></td>
                 </tr>
               )
             })}

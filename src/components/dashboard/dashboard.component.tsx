@@ -9,6 +9,7 @@ import { IState } from '../../reducers';
 import { connect } from 'react-redux';
 import NavbaraltComponent from '../navbar/navbaralt.component';
 import { EditUser } from '../edituser/edituser.component';
+import { ViewUser } from '../viewuser/viewuser.component';
 
 interface IDashboardProps {
   currentUser: User;
@@ -37,6 +38,10 @@ class Dashboard extends Component<IDashboardProps, any> {
             <Route
               path="/dashboard/edituser/:id"
               component={EditUser}
+            />
+            <Route
+              path="/dashboard/viewuser/:id"
+              component={ViewUser}
             />
           </Switch>
       </div>

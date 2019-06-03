@@ -17,7 +17,6 @@ import { User } from '../../models/user';
 import { History } from 'history';
 import Logo from '../../assets/logo.png';
 import './navbaralt.component.css';
-import { Link } from 'react-router-dom';
 
 interface INavbarComponent {
   currentUser: User;
@@ -49,6 +48,9 @@ class NavbarComponent extends React.Component<INavbarComponent, any> {
     if (this.props.currentUser.role.role === 'employee') {
       return (
           <Nav className="ml-auto" navbar>
+          <NavItem>
+            <NavLink href="#" onClick={() => this.goTo('/dashboard/' + this.props.currentUser.role.role)}>Home</NavLink>
+          </NavItem>
           <UncontrolledDropdown nav inNavbar>
             <DropdownToggle nav caret>
               Options
@@ -75,7 +77,7 @@ class NavbarComponent extends React.Component<INavbarComponent, any> {
       return (
         <Nav className="ml-auto" navbar>
         <NavItem>
-          <NavLink><Link to={'/dashboard/' + this.props.currentUser.role.role}>Home</Link></NavLink>
+          <NavLink href="#" onClick={() => this.goTo('/dashboard/' + this.props.currentUser.role.role)}>Home</NavLink>
         </NavItem>
         <UncontrolledDropdown nav inNavbar>
           <DropdownToggle nav caret>
