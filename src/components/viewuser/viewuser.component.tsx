@@ -49,7 +49,7 @@ export class ViewUser extends Component<IViewUserProps, any> {
   }
 
   componentDidMount() {
-    checkUserPermission(this.props.history, this.props.currentUser.role.role, 'finance-manager');
+    checkUserPermission(this.props.history, this.props.currentUser.role.role, ['finance-manager', 'admin']);
     const id = this.props.match.params.id;
     this.getUserInfo(id);
   }

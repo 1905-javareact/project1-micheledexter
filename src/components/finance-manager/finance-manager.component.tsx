@@ -15,7 +15,7 @@ interface IFinanceManagerProps {
 class FinanceManager extends Component<IFinanceManagerProps, any> {
 
   componentDidMount() {
-    checkUserPermission(this.props.history, this.props.currentUser.role.role, 'finance-manager');
+    checkUserPermission(this.props.history, this.props.currentUser.role.role, ['finance-manager', 'admin']);
   }
 
   render() {

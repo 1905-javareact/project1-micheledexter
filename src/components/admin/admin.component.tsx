@@ -14,7 +14,7 @@ interface IAdminProps {
 class Admin extends Component<IAdminProps, any> {
 
   componentDidMount() {
-    checkUserPermission(this.props.history, this.props.currentUser.role.role, 'admin');
+    checkUserPermission(this.props.history, this.props.currentUser.role.role, ['admin']);
   }
 
   render() {

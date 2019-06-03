@@ -129,7 +129,7 @@ export class EditUser extends Component<IEditUserProps, any> {
   }
 
   componentDidMount() {
-    checkUserPermission(this.props.history, this.props.currentUser.role.role, 'admin');
+    checkUserPermission(this.props.history, this.props.currentUser.role.role, ['admin']);
     const id = this.props.match.params.id;
     this.getUserInfo(id);
   }
