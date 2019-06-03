@@ -4,6 +4,7 @@ import { IState } from '../../reducers';
 import { User } from '../../models/user';
 import UsersAdmin from '../users/users-admin.component';
 import { History } from 'history';
+import { checkUserPermission } from '../../utilities/handle';
 
 interface IAdminProps {
   currentUser: User;
@@ -11,6 +12,11 @@ interface IAdminProps {
 }
 
 class Admin extends Component<IAdminProps, any> {
+
+  componentDidMount() {
+    checkUserPermission(this.props.history, this.props.currentUser.role.role, 'admin');
+  }
+
   render() {
     return (
       <div className="Admin">

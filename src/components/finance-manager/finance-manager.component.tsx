@@ -3,13 +3,20 @@ import { connect } from 'react-redux';
 import { IState } from '../../reducers';
 import Users from '../users/users.component';
 import { History } from 'history';
+import { checkUserPermission } from '../../utilities/handle';
+import { User } from '../../models/user';
 
 interface IFinanceManagerProps {
-  history: History
+  currentUser: User;
+  history: History;
 }
 
 
 class FinanceManager extends Component<IFinanceManagerProps, any> {
+
+  componentDidMount() {
+    checkUserPermission(this.props.history, this.props.currentUser.role.role, 'finance-manager');
+  }
 
   render() {
     return (

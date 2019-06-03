@@ -16,3 +16,9 @@ export const checkStatus = (status: number, history: History) => {
     history.push(status.toString());
   }
 }
+
+export const checkUserPermission = (history: History, userRole: string, necessaryRole: string) => {
+  if (userRole !== necessaryRole) {
+    history.push('/');
+  }
+}

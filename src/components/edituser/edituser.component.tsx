@@ -1,10 +1,23 @@
 import React, { Component } from 'react';
 import { apiClient } from '../../axios/user-api-client';
-import { checkStatus } from '../../utilities/handle';
+import { checkStatus, checkUserPermission } from '../../utilities/handle';
 import { User } from '../../models/user';
 import { Role } from '../../models/role';
+import { IState } from '../../reducers';
+import { connect } from 'react-redux';
+import { History } from 'history';
 
-export class EditUser extends Component<any, any> {
+interface IEditUserProps {
+  history: History;
+  match: {
+    params: {
+      id: number
+    }
+  };
+  currentUser: User;
+}
+
+export class EditUser extends Component<IEditUserProps, any> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -116,6 +129,7 @@ export class EditUser extends Component<any, any> {
   }
 
   componentDidMount() {
+    checkUserPermission(this.props.history, this.props.currentUser.role.role, 'admin');
     const id = this.props.match.params.id;
     this.getUserInfo(id);
   }
@@ -176,3 +190,11 @@ export class EditUser extends Component<any, any> {
     )
   }
 }
+
+const mapStateToProps = (state: IState) => {
+  return {
+    currentUser: state.login.currentUser
+  };
+};
+
+export default connect(mapStateToProps)(EditUser);
