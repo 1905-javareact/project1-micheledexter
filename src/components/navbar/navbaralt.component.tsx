@@ -47,13 +47,13 @@ class NavbarComponent extends React.Component<INavbarComponent, any> {
   checkUserStatus = () => {
     if (this.props.currentUser.role.role === 'employee') {
       return (
-          <Nav className="ml-auto" navbar>
+        <Nav className="ml-auto" navbar>
           <NavItem>
             <NavLink href="#" onClick={() => this.goTo('/dashboard/' + this.props.currentUser.role.role)}>Home</NavLink>
           </NavItem>
           <UncontrolledDropdown nav inNavbar>
             <DropdownToggle nav caret>
-              Options
+              Actions
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem>
@@ -76,30 +76,30 @@ class NavbarComponent extends React.Component<INavbarComponent, any> {
     } else {
       return (
         <Nav className="ml-auto" navbar>
-        <NavItem>
-          <NavLink href="#" onClick={() => this.goTo('/dashboard/' + this.props.currentUser.role.role)}>Home</NavLink>
-        </NavItem>
-        <UncontrolledDropdown nav inNavbar>
-          <DropdownToggle nav caret>
-            Options
-          </DropdownToggle>
-          <DropdownMenu right>
-            <DropdownItem>
-              Option 1
-            </DropdownItem>
-            <DropdownItem>
-              Option 2
-            </DropdownItem>
-            <DropdownItem divider />
-            <DropdownItem>
-              Reset
-            </DropdownItem>
-          </DropdownMenu>
-        </UncontrolledDropdown>
-        <NavItem>
-          <NavLink href="#" onClick={() => this.goTo('/logout')}>Logout</NavLink>
-        </NavItem>
-      </Nav>
+          <NavItem>
+            <NavLink href="#" onClick={() => this.goTo('/dashboard/' + this.props.currentUser.role.role)}>Home</NavLink>
+          </NavItem>
+          <UncontrolledDropdown nav inNavbar>
+            <DropdownToggle nav caret>
+              Actions
+            </DropdownToggle>
+            <DropdownMenu right>
+              <DropdownItem>
+                Option 1
+              </DropdownItem>
+              <DropdownItem>
+                Option 2
+              </DropdownItem>
+              <DropdownItem divider />
+              <DropdownItem>
+                Reset
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+          <NavItem>
+            <NavLink href="#" onClick={() => this.goTo('/logout')}>Logout</NavLink>
+          </NavItem>
+        </Nav>
       )
     }
   }
