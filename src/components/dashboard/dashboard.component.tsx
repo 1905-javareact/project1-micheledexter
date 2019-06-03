@@ -7,7 +7,7 @@ import { User } from '../../models/user';
 import { History } from 'history';
 import { IState } from '../../reducers';
 import { connect } from 'react-redux';
-import NavbaraltComponent from '../navbar/navbaralt.component';
+import NavbarComponent from '../navbar/navbar.component';
 import EditUser from '../edituser/edituser.component';
 import ViewUser from '../viewuser/viewuser.component';
 
@@ -21,7 +21,7 @@ class Dashboard extends Component<IDashboardProps, any> {
   render() {
     return (
       <div className='dashboard'>
-        <NavbaraltComponent history={this.props.history}/>
+        <NavbarComponent history={this.props.history}/>
           <Switch>
             <Route
               path='/dashboard/employee' 

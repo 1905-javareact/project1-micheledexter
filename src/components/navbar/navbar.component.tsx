@@ -1,27 +1,124 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem } from 'reactstrap';
 import { IState } from '../../reducers';
+import { connect } from 'react-redux';
 import { User } from '../../models/user';
 import { History } from 'history';
-import Squirrel from '../../assets/squirrel.png';
+import Logo from '../../assets/logo.png';
+import './navbar.component.css';
 
-interface INavbarProps {
+interface INavbarComponent {
   currentUser: User;
-  history: History;
+  history: History
 }
 
-class Navbar extends Component<INavbarProps, any> {
+class NavbarComponent extends React.Component<INavbarComponent, any> {
+  constructor(props: any) {
+    super(props);
 
-  logout = () => {
-    this.props.history.push('/logout');
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      isOpen: false,
+      navContent: <Nav className="ml-auto" navbar></Nav>
+    };
+  }
+
+  goTo = (loc: string) => {
+    this.props.history.push(loc);
+  }
+
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
+
+  checkUserStatus = () => {
+    if (this.props.currentUser.role.role === 'employee') {
+      return (
+        <Nav className="ml-auto" navbar>
+          <NavItem>
+            <NavLink href="#" onClick={() => this.goTo('/dashboard/employee')}>Profile</NavLink>
+          </NavItem>
+          <UncontrolledDropdown nav inNavbar>
+            <DropdownToggle nav caret>
+              Actions
+            </DropdownToggle>
+            <DropdownMenu right>
+              <DropdownItem>
+                Option 1
+              </DropdownItem>
+              <DropdownItem>
+                Option 2
+              </DropdownItem>
+              <DropdownItem divider />
+              <DropdownItem>
+                Reset
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+          <NavItem>
+            <NavLink href="#" onClick={() => this.goTo('/logout')}>Logout</NavLink>
+          </NavItem>
+        </Nav>
+      );
+    } else {
+      return (
+        <Nav className="ml-auto" navbar>
+          <NavItem>
+            <NavLink href="#" onClick={() => this.goTo('/dashboard/employee')}>Profile</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink href="#" onClick={() => this.goTo('/dashboard/' + this.props.currentUser.role.role)}>Users</NavLink>
+          </NavItem>
+          <UncontrolledDropdown nav inNavbar>
+            <DropdownToggle nav caret>
+              Actions
+            </DropdownToggle>
+            <DropdownMenu right>
+              <DropdownItem>
+                Option 1
+              </DropdownItem>
+              <DropdownItem>
+                Option 2
+              </DropdownItem>
+              <DropdownItem divider />
+              <DropdownItem>
+                Reset
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+          <NavItem>
+            <NavLink href="#" onClick={() => this.goTo('/logout')}>Logout</NavLink>
+          </NavItem>
+        </Nav>
+      )
+    }
   }
 
   render() {
     return (
-      <div className="Navbar">
-        <img className="senor-squirrel" alt="confused squirrel holding an acorn" src={Squirrel} />
-        <h1>Dashboard</h1>
-        <button className="btn btn-danger" onClick={this.logout}>Logout</button>
+      <div>
+        <Navbar color="light" light expand="md">
+          <NavbarBrand href="#" onClick={() => this.goTo('/')}>
+            <img className="logo" src={Logo} alt="company logo" />
+          </NavbarBrand>
+          <NavbarToggler onClick={this.toggle} />
+          <Collapse isOpen={this.state.isOpen} navbar>
+            {this.checkUserStatus()}
+          </Collapse>
+        </Navbar>
       </div>
     );
   }
@@ -29,8 +126,8 @@ class Navbar extends Component<INavbarProps, any> {
 
 const mapStateToProps = (state: IState) => {
   return {
-    currentUser: state.login.currentUser,
+    currentUser: state.login.currentUser
   }
 }
 
-export default connect(mapStateToProps)(Navbar);
+export default connect(mapStateToProps)(NavbarComponent);
