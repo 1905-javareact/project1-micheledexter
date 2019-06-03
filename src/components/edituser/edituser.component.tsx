@@ -182,9 +182,6 @@ export class EditUser extends Component<IEditUserProps, any> {
             <option value='admin'>Admin</option>
             <option value='finance-manager'>Finance Manager</option>
             <option value='employee'>Employee</option>
-            {/* <option value="admin" selected={this.state.user.role.role === 'admin'}>Admin</option>
-            <option value="finance-manager" selected={this.state.user.role.role === 'finance-manager'}>Finance Manager</option>
-            <option value="employee" selected={this.state.user.role.role === 'employee'}>Employee</option> */}
           </select><br />
           {this.state.change ? <p>Updated!</p>: ''}
           <input type="submit" value="Submit" />
