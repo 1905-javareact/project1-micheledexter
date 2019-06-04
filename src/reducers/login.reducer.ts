@@ -2,6 +2,7 @@ import { ILoginState } from '.';
 import { loginTypes } from '../actions/login.actions';
 import { User } from '../models/user';
 import { getUser } from '../utilities/construct';
+import { globalTypes } from '../actions/global.actions';
 
 let user: User = getUser();
 
@@ -29,6 +30,12 @@ export const loginReducer = (state = initialState, action: any) => {
         ...state,
         currentUser: action.payload.user,
         message: 'Login Successful'
+      }
+    
+    case (globalTypes.LOGOUT):
+      return {
+        currentUser: initialState.currentUser,
+        message: initialState.message
       }
 
     default:

@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import cookies from 'js-cookie';
 import { apiClient } from '../../axios/user-api-client';
+import { logout } from '../../actions/global.actions';
+import { History } from 'history';
+import { connect } from 'react-redux';
 
-class Logout extends Component<any, any> {
+interface ILogoutProps {
+  logout: () => void;
+  history: History;
+}
+
+class Logout extends Component<ILogoutProps, any> {
 
   logMeOut = async() => {
+    this.props.logout();
     await apiClient.post('/del');
   }
   
@@ -23,4 +32,8 @@ class Logout extends Component<any, any> {
   }
 }
 
-export default Logout
+const mapDispatchToProps = {
+  logout: logout
+}
+
+export default connect(null, mapDispatchToProps)(Logout);

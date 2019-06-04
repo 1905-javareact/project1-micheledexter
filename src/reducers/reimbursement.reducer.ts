@@ -1,5 +1,6 @@
 import { IReimbursementState } from ".";
 import { reimbursementTypes } from "../actions/reimbursement.actions";
+import { globalTypes } from "../actions/global.actions";
 
 const initialState: IReimbursementState = {
   statuses: [],
@@ -28,6 +29,12 @@ export const reimbursementReducer = (state = initialState, action: any) => {
     case (reimbursementTypes.UPDATE_REIMBURSEMENT_TYPES_FAILED):
       return {
         ...state
+      }
+
+    case (globalTypes.LOGOUT):
+      return {
+        statuses: initialState.statuses,
+        types: initialState.types
       }
 
     default:
