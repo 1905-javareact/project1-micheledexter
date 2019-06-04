@@ -7,7 +7,7 @@ const initialState: IReimbursementState = {
 };
 
 export const reimbursementReducer = (state = initialState, action: any) => {
-  switch (action.types) {
+  switch (action.type) {
     case (reimbursementTypes.UPDATE_REIMBURSEMENT_STATUSES_SUCCEEDED):
       return {
         ...state,
@@ -32,6 +32,6 @@ export const reimbursementReducer = (state = initialState, action: any) => {
 
     default:
   }
-  
+
   return state;
 }

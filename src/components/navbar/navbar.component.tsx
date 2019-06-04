@@ -17,13 +17,16 @@ import { User } from '../../models/user';
 import { History } from 'history';
 import Logo from '../../assets/logo.png';
 import './navbar.component.css';
+import { fetchReimbursementStatuses, fetchReimbursementTypes } from '../../actions/reimbursement.actions';
 
-interface INavbarComponent {
+interface INavbarComponentProps {
   currentUser: User;
   history: History
+  fetchReimbursementStatuses: () => void;
+  fetchReimbursementTypes: () => void;
 }
 
-class NavbarComponent extends React.Component<INavbarComponent, any> {
+class NavbarComponent extends React.Component<INavbarComponentProps, any> {
   constructor(props: any) {
     super(props);
 
@@ -42,6 +45,11 @@ class NavbarComponent extends React.Component<INavbarComponent, any> {
     this.setState({
       isOpen: !this.state.isOpen
     });
+  }
+
+  updateStatusTypes = () => {
+    this.props.fetchReimbursementStatuses();
+    this.props.fetchReimbursementTypes();
   }
 
   checkUserStatus = () => {
@@ -74,6 +82,7 @@ class NavbarComponent extends React.Component<INavbarComponent, any> {
         </Nav>
       );
     } else {
+      this.updateStatusTypes();
       return (
         <Nav className="ml-auto" navbar>
           <NavItem>
@@ -130,4 +139,9 @@ const mapStateToProps = (state: IState) => {
   }
 }
 
-export default connect(mapStateToProps)(NavbarComponent);
+const mapDispatchToProps = {
+  fetchReimbursementStatuses: fetchReimbursementStatuses,
+  fetchReimbursementTypes: fetchReimbursementTypes
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavbarComponent);
