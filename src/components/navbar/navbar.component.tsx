@@ -47,9 +47,13 @@ class NavbarComponent extends React.Component<INavbarComponentProps, any> {
     });
   }
 
-  updateStatusTypes = () => {
+  updateReimbursements = () => {
     this.props.fetchReimbursementStatuses();
     this.props.fetchReimbursementTypes();
+  }
+
+  componentDidMount() {
+    this.updateReimbursements();
   }
 
   checkUserStatus = () => {
@@ -82,7 +86,6 @@ class NavbarComponent extends React.Component<INavbarComponentProps, any> {
         </Nav>
       );
     } else {
-      this.updateStatusTypes();
       return (
         <Nav className="ml-auto" navbar>
           <NavItem>
