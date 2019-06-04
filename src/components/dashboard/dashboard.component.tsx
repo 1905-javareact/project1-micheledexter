@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import Employee from '../employee/employee.component';
 import FinanceManager from '../finance-manager/finance-manager.component'
 import Admin from '../admin/admin.component';
@@ -22,28 +22,33 @@ class Dashboard extends Component<IDashboardProps, any> {
     return (
       <div className='dashboard'>
         <NavbarComponent history={this.props.history}/>
-          <Switch>
-            <Route
-              path='/dashboard/employee' 
-              component={Employee}
-            />
-            <Route 
-              path='/dashboard/finance-manager'
-              component={FinanceManager}
-            />
-            <Route
-              path='/dashboard/admin'
-              component={Admin}
-            />
-            <Route
-              path="/dashboard/edituser/:id"
-              component={EditUser}
-            />
-            <Route
-              path="/dashboard/viewuser/:id"
-              component={ViewUser}
-            />
-          </Switch>
+        <Route
+          exact path='/dashboard' 
+          component={Employee}
+        />
+        <Route
+          path='/dashboard/employee'
+          render={() => <Redirect to='/dashboard' />}
+        />
+        <Route 
+          path='/dashboard/finance-manager'
+          component={FinanceManager}
+        />
+        <Route
+          path='/dashboard/admin'
+          component={Admin}
+        />
+        <Route
+          path='/dashboard/view'
+        />
+        <Route
+          path="/dashboard/edituser/:id"
+          component={EditUser}
+        />
+        <Route
+          path="/dashboard/viewuser/:id"
+          component={ViewUser}
+        />
       </div>
     )
   }

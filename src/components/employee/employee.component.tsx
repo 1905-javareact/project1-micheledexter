@@ -2,12 +2,27 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { IState } from '../../reducers';
 import { User } from '../../models/user';
+import { apiClient } from '../../axios/user-api-client';
 
 interface IEmployeeProps {
   currentUser: User;
 }
 
 class Employee extends Component<IEmployeeProps, any> {
+
+  getMyReimbursements = async () => {
+    try {
+      const result = await apiClient(`/reimbursements/author/userId/${this.props.currentUser.userId}`);
+      console.log(result.data);
+    } catch(e) {
+      console.log(e);
+    }
+  }
+
+  componentDidMount() {
+    this.getMyReimbursements();
+  }
+
   render() {
     return (
       <div className="Employee">
