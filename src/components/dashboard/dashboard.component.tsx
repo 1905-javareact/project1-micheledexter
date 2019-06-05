@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import NavbarComponent from '../navbar/navbar.component';
 import EditUser from '../edituser/edituser.component';
 import ViewUser from '../viewuser/viewuser.component';
+import ViewReimbursements from '../viewreimbursements/viewreimbursements.component';
 
 interface IDashboardProps {
   currentUser: User;
@@ -48,6 +49,10 @@ class Dashboard extends Component<IDashboardProps, any> {
         <Route
           path="/dashboard/viewuser/:id"
           component={ViewUser}
+        />
+        <Route
+          exact path="/dashboard/reimbursements"
+          component={ViewReimbursements}
         />
       </div>
     )

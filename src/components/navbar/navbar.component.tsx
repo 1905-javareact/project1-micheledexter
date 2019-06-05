@@ -106,8 +106,8 @@ class NavbarComponent extends React.Component<INavbarComponentProps, any> {
                 Option 2
               </DropdownItem>
               <DropdownItem divider />
-              <DropdownItem>
-                Reset
+              <DropdownItem onClick={() => this.goTo('/dashboard/reimbursements')}>
+                View Reimbursements
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
