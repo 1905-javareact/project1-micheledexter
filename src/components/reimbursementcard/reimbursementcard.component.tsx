@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Card, CardHeader, CardBody, CardFooter } from 'reactstrap';
 import { epochDateToStringDate } from '../../utilities/convert';
 import { FullReimbursement } from '../../models/reimbursement';
-import { apiClient } from '../../axios/user-api-client';
 import { User } from '../../models/user';
 import { Role } from '../../models/role';
+import { IState } from '../../reducers';
+import { connect } from 'react-redux';
 
 interface IReimbursementCardState {
   author: User;
@@ -13,6 +14,7 @@ interface IReimbursementCardState {
 
 interface IReimbursementCardProps {
   reimbursement: FullReimbursement;
+  users: User[];
 }
 
 class ReimbursementCard extends Component<IReimbursementCardProps, IReimbursementCardState> {
@@ -24,21 +26,26 @@ class ReimbursementCard extends Component<IReimbursementCardProps, IReimbursemen
     }
   }
 
-  getUserById = async (id: number) => {
-    let response = await apiClient(`/users/${id}`);
-    console.log(response.data);
-    let user: User = response.data;
-    return user;
+  getUserById(id: number): User {
+    for (let user of this.props.users) {
+      if (user.userId === id) {
+        return user;
+      }
+    }
   }
 
-  getAuthor = async (id: number) => {
-    let author = await this.getUserById(id);
-    this.setState({author});
+  getAuthor = (id: number) => {
+    let user = this.getUserById(id);
+    this.setState({
+      author: user
+    });
   }
 
-  getResolver = async (id: number) => {
-    let resolver = await this.getUserById(id);
-    this.setState({resolver});
+  getResolver = (id: number) => {
+    let user = this.getUserById(id);
+    this.setState({
+      resolver: user
+    });
   }
 
   componentDidMount() {
@@ -74,4 +81,10 @@ class ReimbursementCard extends Component<IReimbursementCardProps, IReimbursemen
   }
 }
 
-export default ReimbursementCard;
+const mapStateToProps = (state: IState) => {
+  return {
+    users: state.user.users
+  }
+}
+
+export default connect(mapStateToProps)(ReimbursementCard);
