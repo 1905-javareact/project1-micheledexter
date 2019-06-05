@@ -88,7 +88,7 @@ class ViewReimbursements extends Component<IViewReimbursementsProps, IViewReimbu
           &nbsp;
           {this.state.dropdown}
         </div>
-        {this.state.reimbursements.map((item) => <ReimbursementCard key={"reimbursement" + item.reimbursementId} reimbursement={item} />)}
+        {this.state.reimbursements.map((item) => <ReimbursementCard key={"reimbursement" + item.reimbursementId} history = {this.props.history} reimbursement={item} />)}
       </div>
     );
   }
