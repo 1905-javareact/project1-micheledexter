@@ -6,6 +6,7 @@ import { Role } from '../../models/role';
 import { IState } from '../../reducers';
 import { connect } from 'react-redux';
 import { History } from 'history';
+import { fetchUsers } from '../../actions/user.actions';
 
 interface IEditUserProps {
   history: History;
@@ -15,6 +16,7 @@ interface IEditUserProps {
     }
   };
   currentUser: User;
+  fetchUsers: () => void;
 }
 
 export class EditUser extends Component<IEditUserProps, any> {
@@ -126,6 +128,7 @@ export class EditUser extends Component<IEditUserProps, any> {
     this.setState({
       change: true
     });
+    this.props.fetchUsers();
   }
 
   componentDidMount() {
@@ -197,4 +200,8 @@ const mapStateToProps = (state: IState) => {
   };
 };
 
-export default connect(mapStateToProps)(EditUser);
+const mapDispatchToProps = {
+  fetchUsers: fetchUsers
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditUser);
