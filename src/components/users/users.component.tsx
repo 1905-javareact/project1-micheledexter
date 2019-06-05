@@ -1,46 +1,27 @@
 import React, { Component } from 'react';
 import { User } from '../../models/user';
-import { checkStatus } from '../../utilities/handle';
-import { apiClient } from '../../axios/user-api-client';
+import { checkUserPermission } from '../../utilities/handle';
 import { History } from 'history';
+import { connect } from 'react-redux';
+import { IState } from '../../reducers';
 
 interface IUsersProps {
-  history: History
-}
-interface IUsersState {
-  users: User[]
+  history: History;
+  users: User[];
+  currentUser: User;
 }
 
-class Users extends Component<IUsersProps, IUsersState> {
-  constructor(props: any){
-    super(props);
-    this.state = {
-      users: []
-    }
-  }
+class Users extends Component<IUsersProps, any> {
 
-  getAllUsers = async () => {
-    try {
-      const response = await apiClient('/users');
-      checkStatus(response.status, this.props.history);
-      this.setState({
-        users: response.data
-      });
-    } catch(e) {
-      console.log(e);
-    }
+  componentDidMount() {
+    checkUserPermission(this.props.history, this.props.currentUser.role.role, ['admin', 'finance-manager']);
   }
 
   viewUser = (user: number) => {
     this.props.history.push('/dashboard/viewuser/' + user);
   }
 
-  componentDidMount() {
-    this.getAllUsers();
-  }
-
   render() {
-    const {users} = this.state;
     return (
       <div className='AllUsers'>
         <h1>List of all users and their data</h1>
@@ -57,7 +38,7 @@ class Users extends Component<IUsersProps, IUsersState> {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => {
+            {this.props.users.map((user) => {
               return (
                 <tr key={'user-' + user.userId}>
                   <td>{user.userId}</td>
@@ -78,4 +59,11 @@ class Users extends Component<IUsersProps, IUsersState> {
   }
 }
 
-export default Users;
+const mapStateToProps = (state: IState) => {
+  return {
+    users: state.user.users,
+    currentUser: state.login.currentUser
+  }
+}
+
+export default connect(mapStateToProps)(Users);

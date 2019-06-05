@@ -1,47 +1,27 @@
 import React, { Component } from 'react';
 import { User } from '../../models/user';
-import { checkStatus } from '../../utilities/handle';
-import { apiClient } from '../../axios/user-api-client';
 import { History } from 'history';
+import { IState } from '../../reducers';
+import { connect } from 'react-redux';
+import { checkUserPermission } from '../../utilities/handle';
 
 interface IUsersAdminProps {
-  history: History
+  history: History;
+  users: User[];
+  currentUser: User;
 }
 
-interface IUsersAdminState {
-  users: User[]
-}
+class UsersAdmin extends Component<IUsersAdminProps, any> {
 
-class UsersAdmin extends Component<IUsersAdminProps, IUsersAdminState> {
-  constructor(props: any){
-    super(props);
-    this.state = {
-      users: []
-    }
-  }
-
-  getAllUsers = async () => {
-    try {
-      const response = await apiClient('/users');
-      checkStatus(response.status, this.props.history);
-      this.setState({
-        users: response.data
-      });
-    } catch(e) {
-      console.log(e);
-    }
+  componentDidMount() {
+    checkUserPermission(this.props.history, this.props.currentUser.role.role, ['admin']);
   }
 
   editUser = (user: number) => {
     this.props.history.push('/dashboard/edituser/' + user);
   }
 
-  componentDidMount() {
-    this.getAllUsers();
-  }
-
   render() {
-    const {users} = this.state;
     return (
       <div className='AllUsers'>
         <h1>List of all users and their data</h1>
@@ -58,7 +38,7 @@ class UsersAdmin extends Component<IUsersAdminProps, IUsersAdminState> {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => {
+            {this.props.users.map((user) => {
               return (
                 <tr key={'user-' + user.userId}>
                   <td>{user.userId}</td>
@@ -79,4 +59,11 @@ class UsersAdmin extends Component<IUsersAdminProps, IUsersAdminState> {
   }
 }
 
-export default UsersAdmin;
+const mapStateToProps = (state: IState) => {
+  return {
+    users: state.user.users,
+    currentUser: state.login.currentUser
+  }
+}
+
+export default connect(mapStateToProps)(UsersAdmin);
