@@ -78,15 +78,11 @@ class NavbarComponent extends React.Component<INavbarComponentProps, any> {
               Actions
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem>
-                Option 1
+              <DropdownItem onClick={() => this.goTo('/dashboard/user-reimbursements')}>
+                View Your Reimbursements
               </DropdownItem>
               <DropdownItem>
-                Option 2
-              </DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem>
-                Reset
+                Submit New Reimbursement
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
@@ -109,15 +105,15 @@ class NavbarComponent extends React.Component<INavbarComponentProps, any> {
               Actions
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem>
-                Option 1
+              <DropdownItem onClick={() => this.goTo('/dashboard/user-reimbursements')}>
+                View Your Reimbursements
               </DropdownItem>
               <DropdownItem>
-                Option 2
+                Submit New Reimbursement
               </DropdownItem>
               <DropdownItem divider />
               <DropdownItem onClick={() => this.goTo('/dashboard/reimbursements')}>
-                View Reimbursements
+                Browse All Reimbursements
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>

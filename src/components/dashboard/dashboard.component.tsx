@@ -11,6 +11,7 @@ import NavbarComponent from '../navbar/navbar.component';
 import EditUser from '../edituser/edituser.component';
 import ViewUser from '../viewuser/viewuser.component';
 import ViewReimbursements from '../viewreimbursements/viewreimbursements.component';
+import UserReimbursements from '../user-reimbursements/user-reimbursements.component';
 
 interface IDashboardProps {
   currentUser: User;
@@ -40,7 +41,8 @@ class Dashboard extends Component<IDashboardProps, any> {
           component={Admin}
         />
         <Route
-          path='/dashboard/view'
+          path='/dashboard/user-reimbursements'
+          component={UserReimbursements}
         />
         <Route
           path="/dashboard/edituser/:id"

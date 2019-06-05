@@ -2,17 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { IState } from '../../reducers';
 import { User } from '../../models/user';
-import { apiClient } from '../../axios/user-api-client';
-import { ReimbursementStatus, ReimbursementType, FullReimbursement } from '../../models/reimbursement';
-import { fullReimbursement } from '../../utilities/construct';
-import { epochDateToStringDate } from '../../utilities/convert';
-import { Card, CardHeader, CardBody, CardFooter } from 'reactstrap';
+import { FullReimbursement } from '../../models/reimbursement';
 import './employee.component.css';
 
 interface IEmployeeProps {
   currentUser: User;
-  statuses: ReimbursementStatus[];
-  types: ReimbursementType[];
 }
 
 interface IEmployeeState{
@@ -25,26 +19,6 @@ class Employee extends Component<IEmployeeProps, IEmployeeState> {
     this.state = {
       reimbursements: []
     }
-  }
-
-  getMyReimbursements = async () => {
-    try {
-      const result = await apiClient(`/reimbursements/author/userId/${this.props.currentUser.userId}`);
-      let reimbursements = []
-      for (let item of result.data) {
-        let reimbursement = fullReimbursement(item, this.props.statuses, this.props.types);
-        reimbursements.push(reimbursement);
-      }
-      this.setState({
-        reimbursements: reimbursements
-      });
-    } catch(e) {
-      console.log(e);
-    }
-  }
-
-  componentDidMount() {
-    this.getMyReimbursements();
   }
 
   render() {
@@ -80,29 +54,6 @@ class Employee extends Component<IEmployeeProps, IEmployeeState> {
             </tbody>
           </table>
         </div>
-        <div className="container employee-reimbursements">
-          <h3>Reimbursements</h3>
-          {this.state.reimbursements.map((item) => {
-            return (
-              <div className="container receipt" key={"r-" + item.reimbursementId}>
-                <Card>
-                  <CardHeader tag="h4">Receipt from {epochDateToStringDate(item.dateSubmitted)}</CardHeader>
-                  <CardBody className='receipt-body'>
-                    <b>Amount:&nbsp;</b>${item.amount.toFixed(2)}<br />
-                    <b>Type:&nbsp;</b>{item.type.type}<br />
-                    <hr />
-                    <b>Description:<br /></b>{item.description}<br />
-                    <hr />
-                    <b>Date Resolved:&nbsp;</b>{item.dateResolved !== 0 ? epochDateToStringDate(item.dateResolved) : 'Pending'}
-                  </CardBody>
-                  <CardFooter className="text-muted">
-                    Status: {item.status.status}
-                  </CardFooter>
-                </Card>
-              </div>
-            )
-          })}
-        </div>
       </div>
     );
   }
@@ -111,13 +62,7 @@ class Employee extends Component<IEmployeeProps, IEmployeeState> {
 const mapStateToProps = (state: IState) => {
   return {
     currentUser: state.login.currentUser,
-    statuses: state.reimbursement.statuses,
-    types: state.reimbursement.types
   }
 }
 
-const mapDispatchToProps = {
-  // imported dispatch props need to be mapped here
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Employee);
+export default connect(mapStateToProps)(Employee);
