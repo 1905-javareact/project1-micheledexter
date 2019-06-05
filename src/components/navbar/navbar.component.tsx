@@ -18,12 +18,14 @@ import { History } from 'history';
 import Logo from '../../assets/logo.png';
 import './navbar.component.css';
 import { fetchReimbursementStatuses, fetchReimbursementTypes } from '../../actions/reimbursement.actions';
+import { fetchUsers } from '../../actions/user.actions';
 
 interface INavbarComponentProps {
   currentUser: User;
   history: History
   fetchReimbursementStatuses: () => void;
   fetchReimbursementTypes: () => void;
+  fetchUsers: () => void;
 }
 
 class NavbarComponent extends React.Component<INavbarComponentProps, any> {
@@ -52,8 +54,16 @@ class NavbarComponent extends React.Component<INavbarComponentProps, any> {
     this.props.fetchReimbursementTypes();
   }
 
+  updateUsers = () => {
+    this.props.fetchUsers();
+  }
+
+
   componentDidMount() {
     this.updateReimbursements();
+    if (['admin', 'finance-manager'].includes(this.props.currentUser.role.role)) {
+      this.updateUsers();
+    }
   }
 
   checkUserStatus = () => {
@@ -144,7 +154,8 @@ const mapStateToProps = (state: IState) => {
 
 const mapDispatchToProps = {
   fetchReimbursementStatuses: fetchReimbursementStatuses,
-  fetchReimbursementTypes: fetchReimbursementTypes
+  fetchReimbursementTypes: fetchReimbursementTypes,
+  fetchUsers: fetchUsers
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavbarComponent);
