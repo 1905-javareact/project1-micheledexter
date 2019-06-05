@@ -6,6 +6,7 @@ import { User } from '../models/user';
 import { loginReducer } from './login.reducer';
 import { ReimbursementStatus, ReimbursementType } from '../models/reimbursement';
 import { reimbursementReducer } from './reimbursement.reducer';
+import { userReducer } from './user.reducer';
 
 export interface ILoginState {
   currentUser: User;
@@ -17,12 +18,18 @@ export interface IReimbursementState {
   types: ReimbursementType[];
 }
 
+export interface IUserState {
+  users: User[];
+}
+
 export interface IState {
   login: ILoginState;
   reimbursement: IReimbursementState;
+  user: IUserState;
 }
 
 export const state = combineReducers<IState>({
   login: loginReducer,
-  reimbursement: reimbursementReducer
+  reimbursement: reimbursementReducer,
+  user: userReducer
 });
