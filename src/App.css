@@ -51,6 +51,7 @@ img.senor-squirrel {
 .receipt {
   display: inline-block;
   width: 300px;
+  margin: 20px 0px;
 }
 
 .receipt-body {

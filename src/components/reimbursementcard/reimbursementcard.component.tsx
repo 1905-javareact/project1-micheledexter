@@ -61,14 +61,16 @@ class ReimbursementCard extends Component<IReimbursementCardProps, IReimbursemen
 
   render() {
     return (
-      <div className="ReimbursementCard">
+      <div className="ReimbursementCard container receipt">
         <Card>
           <CardHeader tag="h4">Receipt from {epochDateToStringDate(this.props.reimbursement.dateSubmitted)}<br />
           by {this.state.author.firstName + ' ' + this.state.author.lastName}</CardHeader>
           <CardBody className='receipt-body'>
             <b>Amount:&nbsp;</b>${this.props.reimbursement.amount.toFixed(2)}<br />
             <b>Type:&nbsp;</b>{this.props.reimbursement.type.type}<br />
+            <hr />
             <b>Description:<br /></b>{this.props.reimbursement.description}<br />
+            <hr />
             <b>Date Resolved:&nbsp;</b>{this.props.reimbursement.dateResolved !== 0 ? epochDateToStringDate(this.props.reimbursement.dateResolved) : 'Pending'}<br />
             <b>Resolver:&nbsp;</b>{this.state.resolver.firstName + ' ' + this.state.resolver.lastName}
           </CardBody>

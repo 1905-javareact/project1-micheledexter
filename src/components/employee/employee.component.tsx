@@ -90,7 +90,9 @@ class Employee extends Component<IEmployeeProps, IEmployeeState> {
                   <CardBody className='receipt-body'>
                     <b>Amount:&nbsp;</b>${item.amount.toFixed(2)}<br />
                     <b>Type:&nbsp;</b>{item.type.type}<br />
+                    <hr />
                     <b>Description:<br /></b>{item.description}<br />
+                    <hr />
                     <b>Date Resolved:&nbsp;</b>{item.dateResolved !== 0 ? epochDateToStringDate(item.dateResolved) : 'Pending'}
                   </CardBody>
                   <CardFooter className="text-muted">
