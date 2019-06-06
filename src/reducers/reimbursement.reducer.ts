@@ -3,12 +3,35 @@ import { reimbursementTypes } from "../actions/reimbursement.actions";
 import { globalTypes } from "../actions/global.actions";
 
 const initialState: IReimbursementState = {
+  reimbursements: [],
   statuses: [],
   types: []
 };
 
 export const reimbursementReducer = (state = initialState, action: any) => {
   switch (action.type) {
+    case (reimbursementTypes.UPDATE_REIMBURSEMENTS_BY_STATUS_SUCCEEDED):
+      return {
+        ...state,
+        reimbursements: action.payload.reimbursements
+      }
+
+    case (reimbursementTypes.UPDATE_REIMBURSEMENTS_BY_STATUS_FAILED):
+      return {
+        ...state
+      }
+
+    case (reimbursementTypes.UPDATE_REIMBURSEMENTS_BY_AUTHOR_SUCCEEDED):
+      return {
+        ...state,
+        reimbursements: action.payload.reimbursements
+      }
+    
+    case (reimbursementTypes.UPDATE_REIMBURSEMENTS_BY_AUTHOR_FAILED):
+      return {
+        ...state
+      }
+
     case (reimbursementTypes.UPDATE_REIMBURSEMENT_STATUSES_SUCCEEDED):
       return {
         ...state,
@@ -33,6 +56,7 @@ export const reimbursementReducer = (state = initialState, action: any) => {
 
     case (globalTypes.LOGOUT):
       return {
+        reimbursements: initialState.reimbursements,
         statuses: initialState.statuses,
         types: initialState.types
       }

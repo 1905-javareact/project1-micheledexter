@@ -4,7 +4,7 @@ import { combineReducers } from 'redux';
 import { User } from '../models/user';
 // import { RouteComponentProps } from 'react-router';
 import { loginReducer } from './login.reducer';
-import { ReimbursementStatus, ReimbursementType } from '../models/reimbursement';
+import { ReimbursementStatus, ReimbursementType, Reimbursement } from '../models/reimbursement';
 import { reimbursementReducer } from './reimbursement.reducer';
 import { userReducer } from './user.reducer';
 
@@ -14,6 +14,7 @@ export interface ILoginState {
 }
 
 export interface IReimbursementState {
+  reimbursements: Reimbursement[];
   statuses: ReimbursementStatus[];
   types: ReimbursementType[];
 }
