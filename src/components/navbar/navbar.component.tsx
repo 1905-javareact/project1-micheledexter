@@ -66,65 +66,6 @@ class NavbarComponent extends React.Component<INavbarComponentProps, any> {
     }
   }
 
-  checkUserStatus = () => {
-    if (this.props.currentUser.role.role === 'employee') {
-      return (
-        <Nav className="ml-auto" navbar>
-          <NavItem>
-            <NavLink href="#" onClick={() => this.goTo('/dashboard/employee')}>Profile</NavLink>
-          </NavItem>
-          <UncontrolledDropdown nav inNavbar>
-            <DropdownToggle nav caret>
-              Actions
-            </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem onClick={() => this.goTo('/dashboard/user-reimbursements')}>
-                View Your Reimbursements
-              </DropdownItem>
-              <DropdownItem>
-                Submit New Reimbursement
-              </DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
-          <NavItem>
-            <NavLink href="#" onClick={() => this.goTo('/logout')}>Logout</NavLink>
-          </NavItem>
-        </Nav>
-      );
-    } else {
-      return (
-        <Nav className="ml-auto" navbar>
-          <NavItem>
-            <NavLink href="#" onClick={() => this.goTo('/dashboard/employee')}>Profile</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="#" onClick={() => this.goTo('/dashboard/' + this.props.currentUser.role.role)}>Users</NavLink>
-          </NavItem>
-          <UncontrolledDropdown nav inNavbar>
-            <DropdownToggle nav caret>
-              Actions
-            </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem onClick={() => this.goTo('/dashboard/user-reimbursements')}>
-                View Your Reimbursements
-              </DropdownItem>
-              <DropdownItem>
-                Submit New Reimbursement
-              </DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem onClick={() => this.goTo('/dashboard/reimbursements')}>
-                Browse All Reimbursements
-              </DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
-          <NavItem>
-            <NavLink href="#" onClick={() => this.goTo('/logout')}>Logout</NavLink>
-          </NavItem>
-        </Nav>
-      )
-    }
-  }
-
   render() {
     return (
       <div>
@@ -134,7 +75,36 @@ class NavbarComponent extends React.Component<INavbarComponentProps, any> {
           </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
-            {this.checkUserStatus()}
+            <Nav className="ml-auto" navbar>
+              <NavItem>
+                <NavLink href="#" onClick={() => this.goTo('/dashboard/employee')}>Profile</NavLink>
+              </NavItem>
+              {['admin', 'finance-manager'].includes(this.props.currentUser.role.role) ? 
+              <NavItem>
+                <NavLink href="#" onClick={() => this.goTo('/dashboard/' + this.props.currentUser.role.role)}>Users</NavLink>
+              </NavItem> : <></>}
+              <UncontrolledDropdown nav inNavbar>
+                <DropdownToggle nav caret>
+                  Actions
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem onClick={() => this.goTo('/dashboard/user-reimbursements')}>
+                    View Your Reimbursements
+                  </DropdownItem>
+                  <DropdownItem>
+                    Submit New Reimbursement
+                  </DropdownItem>
+                  {['admin', 'finance-manager'].includes(this.props.currentUser.role.role) ? <>
+                  <DropdownItem divider />
+                  <DropdownItem onClick={() => this.goTo('/dashboard/reimbursements')}>
+                    Browse All Reimbursements
+                  </DropdownItem> </> : <> </> }
+                </DropdownMenu>
+              </UncontrolledDropdown>
+              <NavItem>
+                <NavLink href="#" onClick={() => this.goTo('/logout')}>Logout</NavLink>
+              </NavItem>
+            </Nav>
           </Collapse>
         </Navbar>
       </div>
