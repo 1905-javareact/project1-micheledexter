@@ -1,6 +1,5 @@
 import { History } from "history";
 import { Dispatch } from "redux";
-import axios, { AxiosResponse } from 'axios';
 import { User } from "../models/user";
 import { checkPermission } from "../utilities/handle";
 import { apiClient } from "../axios/user-api-client";
