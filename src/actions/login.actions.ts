@@ -3,6 +3,7 @@ import { Dispatch } from "redux";
 import axios, { AxiosResponse } from 'axios';
 import { User } from "../models/user";
 import { checkPermission } from "../utilities/handle";
+import { apiClient } from "../axios/user-api-client";
 
 export const loginTypes = {
   INVALID_CREDENTIALS: 'LOGIN_INVALID_CREDENTIALS',
@@ -17,14 +18,7 @@ export const login = (username: string, password: string, history: History) => a
   }
 
   try {
-    const response: AxiosResponse<User> = await axios('http://localhost:5000/login', {
-      method: 'POST',
-      withCredentials: true,
-      data: credentials,
-      headers: {
-        'content-type': 'application/json'
-      }
-    });
+    const response = await apiClient.post('/login', credentials);
 
     if (response.status === 401) {
       dispatch({
