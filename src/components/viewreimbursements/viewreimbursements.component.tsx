@@ -3,15 +3,14 @@ import { connect } from 'react-redux';
 import { IState } from '../../reducers';
 import { User } from '../../models/user';
 import { History } from 'history';
-import { apiClient } from '../../axios/user-api-client';
-import { FullReimbursement, Reimbursement, ReimbursementStatus, ReimbursementType } from '../../models/reimbursement';
-import { fullReimbursement } from '../../utilities/construct';
+import { FullReimbursement, ReimbursementStatus, ReimbursementType } from '../../models/reimbursement';
 import ReimbursementCard from '../reimbursementcard/reimbursementcard.component';
 import { checkUserPermission } from '../../utilities/handle';
+import { fetchReimbursementsByStatusId, fetchReimbursementsByAuthorId } from '../../actions/reimbursement.actions';
 
 interface IViewReimbursementsState {
-  reimbursements: FullReimbursement[];
   dropdown: JSX.Element;
+  sort: string;
 }
 
 interface IViewReimbursementsProps {
@@ -20,60 +19,49 @@ interface IViewReimbursementsProps {
   statuses: ReimbursementStatus[];
   types: ReimbursementType[];
   users: User[];
+  reimbursements: FullReimbursement[];
+  fetchReimbursementsByStatusId: (id: number, statuses: ReimbursementStatus[], types: ReimbursementType[]) => void;
+  fetchReimbursementsByAuthorId: (id: number, statuses: ReimbursementStatus[], types: ReimbursementType[]) => void;
 }
 
 class ViewReimbursements extends Component<IViewReimbursementsProps, IViewReimbursementsState> {
   constructor(props: IViewReimbursementsProps) {
     super(props);
     this.state = {
-      reimbursements: [],
-      dropdown: <select></select>
+      dropdown: <select></select>,
+      sort: 'status'
     }
-  }
-
-  getReimbursementsByStatusId = (id: number) => {
-    return this.getReimbursements(`/reimbursements/status/${id}`);
-  }
-
-  getReimbursementsByAuthorId = (id: number) => {
-    return this.getReimbursements(`/reimbursements/author/userId/${id}`);
-  }
-
-  getReimbursements = async (endpoint: string) => {
-    let response = await apiClient(endpoint);
-    let rements: FullReimbursement[] = [];
-    let raw: Reimbursement[] = response.data;
-    for (let item of raw) {
-      rements.push(fullReimbursement(item,this.props.statuses, this.props.types));
-    }
-    this.setState({
-      reimbursements: rements
-    });
   }
 
   setStatusDropdown = () => {
     let dropdown = <select defaultValue="0">
       <option value="0">-- Select a status --</option>
       {this.props.statuses.map((status) => {
-        return <option key={"status-" + status.statusId} value={status.statusId} onClick={() => this.getReimbursementsByStatusId(status.statusId)}>{status.status}</option>
+        return <option key={"status-" + status.statusId} value={status.statusId} onClick={() => this.props.fetchReimbursementsByStatusId(status.statusId, this.props.statuses, this.props.types)}>{status.status}</option>
       })}
     </select>;
-    this.setState({dropdown});
+    this.setState({
+      dropdown,
+      sort: 'status'
+    });
   }
 
   setAuthorDropdown = () => {
     let dropdown = <select defaultValue="0">
       <option value="0">-- Select an author --</option>
       {this.props.users.map((user) => {
-        return <option key={"author-" + user.userId} value={user.userId} onClick={() => this.getReimbursementsByAuthorId(user.userId)}>{user.firstName + " " + user.lastName}</option>
+        return <option key={"author-" + user.userId} value={user.userId} onClick={() => this.props.fetchReimbursementsByAuthorId(user.userId, this.props.statuses, this.props.types)}>{user.firstName + " " + user.lastName}</option>
       })}
     </select>;
-    this.setState({dropdown});
+    this.setState({
+      dropdown,
+      sort: 'author'
+    });
   }
 
   componentDidMount() {
     checkUserPermission(this.props.history, this.props.currentUser.role.role, ['admin', 'finance-manager']);
-    this.getReimbursementsByStatusId(1);
+    this.props.fetchReimbursementsByStatusId(1, this.props.statuses, this.props.types);
     this.setStatusDropdown();
   }
 
@@ -88,7 +76,7 @@ class ViewReimbursements extends Component<IViewReimbursementsProps, IViewReimbu
           &nbsp;
           {this.state.dropdown}
         </div>
-        {this.state.reimbursements.map((item) => <ReimbursementCard key={"reimbursement" + item.reimbursementId} history = {this.props.history} reimbursement={item} />)}
+        {this.props.reimbursements.map((item) => <ReimbursementCard key={"reimbursement" + item.reimbursementId} history = {this.props.history} reimbursement={item} sort={this.state.sort} />)}
       </div>
     );
   }
@@ -99,12 +87,14 @@ const mapStateToProps = (state: IState) => {
     currentUser: state.login.currentUser,
     statuses: state.reimbursement.statuses,
     types: state.reimbursement.types,
-    users: state.user.users
+    users: state.user.users,
+    reimbursements: state.reimbursement.reimbursements
   }
 }
 
 const mapDispatchToProps = {
-  // imported dispatch props need to be mapped here
+  fetchReimbursementsByStatusId: fetchReimbursementsByStatusId,
+  fetchReimbursementsByAuthorId: fetchReimbursementsByAuthorId
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewReimbursements);

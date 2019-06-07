@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { Card, CardHeader, CardBody, CardFooter } from 'reactstrap';
-import { epochDateToStringDate } from '../../utilities/convert';
-import { FullReimbursement } from '../../models/reimbursement';
+import { epochDateToStringDate, stringDateToEpochDate } from '../../utilities/convert';
+import { FullReimbursement, Reimbursement, ReimbursementStatus, ReimbursementType } from '../../models/reimbursement';
 import { User } from '../../models/user';
 import { Role } from '../../models/role';
 import { IState } from '../../reducers';
 import { connect } from 'react-redux';
+import { History } from 'history';
+import './reimbursementcard.component.css';
+import { updateReimbursement } from '../../actions/reimbursement.actions';
 
 interface IReimbursementCardState {
   author: User;
@@ -15,6 +18,12 @@ interface IReimbursementCardState {
 interface IReimbursementCardProps {
   reimbursement: FullReimbursement;
   users: User[];
+  history: History;
+  currentUser: User;
+  statuses: ReimbursementStatus[];
+  types: ReimbursementType[];
+  sort: string;
+  updateReimbursement: (reimbursement: Reimbursement, type: string, typeId: number, statuses: ReimbursementStatus[], types: ReimbursementType[]) => void;
 }
 
 class ReimbursementCard extends Component<IReimbursementCardProps, IReimbursementCardState> {
@@ -48,8 +57,49 @@ class ReimbursementCard extends Component<IReimbursementCardProps, IReimbursemen
     });
   }
 
+  setPendingResolver = async () => {
+    let reimbursement = new Reimbursement(
+      this.props.reimbursement.reimbursementId, 
+      this.props.reimbursement.author,
+      this.props.reimbursement.amount,
+      this.props.reimbursement.dateSubmitted,
+      this.props.reimbursement.dateResolved,
+      this.props.reimbursement.description,
+      this.props.currentUser.userId,
+      2, 
+      this.props.reimbursement.type.typeId
+    );
+    let typeId: number = 0;
+    if (this.props.sort === 'status') {
+      typeId = 1;
+    } else {
+      typeId = this.props.reimbursement.author;
+    }
+    this.props.updateReimbursement(reimbursement, this.props.sort, typeId, this.props.statuses, this.props.types);
+  }
+
+  checkAccept = (resolverId: number, authorId: number) => {
+    if (authorId !== this.props.currentUser.userId && (resolverId === -1 || resolverId === null)) {
+      return <button className="btn btn-primary" onClick={this.setPendingResolver}>Take Responsibility</button>;
+    }
+  }
+
+  getAuthorName() {
+    if (this.state.author) {
+      return this.state.author.firstName + ' ' + this.state.author.lastName;
+    } else {
+      return "Unknown";
+    }
+  }
+
   componentDidMount() {
-    this.getAuthor(this.props.reimbursement.author);
+    if (this.props.reimbursement.author) {
+      this.getAuthor(this.props.reimbursement.author);
+    } else {
+      this.setState({
+        author: new User(-1, '', '', '', '', '', new Role(-1, ''))
+      })
+    }
     if (this.props.reimbursement.resolver === null) {
       this.setState({
         resolver: new User(-1, '', '', 'No', 'Resolver', '', new Role(-1, ''))
@@ -64,18 +114,20 @@ class ReimbursementCard extends Component<IReimbursementCardProps, IReimbursemen
       <div className="ReimbursementCard container receipt">
         <Card>
           <CardHeader tag="h4">Receipt from {epochDateToStringDate(this.props.reimbursement.dateSubmitted)}<br />
-          by {this.state.author.firstName + ' ' + this.state.author.lastName}</CardHeader>
+          by {this.getAuthorName()}</CardHeader>
           <CardBody className='receipt-body'>
             <b>Amount:&nbsp;</b>${this.props.reimbursement.amount.toFixed(2)}<br />
             <b>Type:&nbsp;</b>{this.props.reimbursement.type.type}<br />
             <hr />
             <b>Description:<br /></b>{this.props.reimbursement.description}<br />
             <hr />
-            <b>Date Resolved:&nbsp;</b>{this.props.reimbursement.dateResolved !== 0 ? epochDateToStringDate(this.props.reimbursement.dateResolved) : 'Pending'}<br />
+            <b>Date Resolved:&nbsp;</b>{this.props.reimbursement.dateResolved >= stringDateToEpochDate('1/1/1971') ? epochDateToStringDate(this.props.reimbursement.dateResolved) : 'Pending'}<br />
             <b>Resolver:&nbsp;</b>{this.state.resolver.firstName + ' ' + this.state.resolver.lastName}
           </CardBody>
           <CardFooter className="text-muted">
             Status: {this.props.reimbursement.status.status}
+            <br />
+            {this.checkAccept(this.props.reimbursement.resolver, this.props.reimbursement.author)}
           </CardFooter>
         </Card>
       </div>
@@ -85,8 +137,15 @@ class ReimbursementCard extends Component<IReimbursementCardProps, IReimbursemen
 
 const mapStateToProps = (state: IState) => {
   return {
-    users: state.user.users
+    users: state.user.users,
+    currentUser: state.login.currentUser,
+    statuses: state.reimbursement.statuses,
+    types: state.reimbursement.types
   }
 }
 
-export default connect(mapStateToProps)(ReimbursementCard);
+const mapDispatchToProps = {
+  updateReimbursement: updateReimbursement
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReimbursementCard);
