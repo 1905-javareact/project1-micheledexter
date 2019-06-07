@@ -10,6 +10,17 @@ const initialState: IReimbursementState = {
 
 export const reimbursementReducer = (state = initialState, action: any) => {
   switch (action.type) {
+    case(reimbursementTypes.UPDATE_REIMBURSEMENT_SUCCEEDED):
+    return {
+      ...state,
+      reimbursements: action.payload.reimbursements
+    }
+
+    case (reimbursementTypes.UPDATE_REIMBURSEMENT_FAILED):
+      return {
+        ...state
+      }
+
     case (reimbursementTypes.UPDATE_REIMBURSEMENTS_BY_STATUS_SUCCEEDED):
       return {
         ...state,
