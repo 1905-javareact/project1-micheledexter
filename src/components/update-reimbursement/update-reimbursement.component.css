@@ -1,0 +1,13 @@
+.UpdateReimbursement .form-control {
+  display: inline-block;
+}
+
+.UpdateReimbursement .form-group {
+  text-align: left;
+  width: 50%;
+}
+
+.UpdateReimbursement .container {
+  display: flex;
+  justify-content: center;
+}
