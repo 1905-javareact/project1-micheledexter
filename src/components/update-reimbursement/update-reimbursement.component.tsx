@@ -52,7 +52,10 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
   }
 
   update = (event: React.FormEvent) => {
-    
+    event.preventDefault();
+    let rt = this.state;
+    this.props.updateReimbursement(new Reimbursement(rt.reimbursementId, rt.author, parseInt(rt.amount), rt.dateSubmitted, rt.dateResolved, rt.description, rt.resolver, rt.status, rt.type), 'status', 1, this.props.statuses, this.props.types);
+    this.props.history.push('/dashboard/reimbursements');
   }
 
   componentDidMount() {
@@ -108,6 +111,7 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
   }
 
   getResolvers = (id: number) => {
+    console.log(id);
     if (!this.state.resolver || this.state.resolver <= 0) return <></>;
     let options = <>
       <label htmlFor="resolver">Resolver:&nbsp;</label>
@@ -119,6 +123,8 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
   }
 
   getStatuses = (id: number) => {
+    console.log(id);
+    if (!this.state.resolver || this.state.resolver <= 0) return <></>;
     let statuses = <>
       <label htmlFor="status">Status:&nbsp;</label>
       <select name="status" className="form-control" defaultValue={id + ''} onChange={this.handleStatus}>
@@ -129,6 +135,8 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
   }
 
   getTypes = (id: number) => {
+    console.log(id);
+    if (!this.state.resolver || this.state.resolver <= 0) return <></>;
     let types = <>
       <label htmlFor="type">Type:&nbsp;</label>
       <select name="type" className="form-control" defaultValue={id + ''} onChange={this.handleTypes}>
@@ -147,7 +155,6 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
   }
 
   render() {
-    let rt = this.state;
     return (
       <div className="UpdateReimbursement">
         <h1>Update Reimbursement</h1>
@@ -156,12 +163,12 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
           <form className="form-group" onSubmit={this.update}>
             <div className="form-chunks">
               <div className="form-chunk">
-                <h3>{this.getName(rt.author)} submitted receipt on {epochDateToStringDate(rt.dateSubmitted)}</h3>
+                <h3>{this.getName(this.state.author)} submitted receipt on {epochDateToStringDate(this.state.dateSubmitted)}</h3>
               </div>
               <div className="form-chunk">
                 <label htmlFor="amount">Amount:&nbsp;</label>
                 <input name="amount" className="form-control" type="text" value={this.state.amount} onChange={this.handleAmount} /><br />
-                {this.getTypes(rt.type)}<br />
+                {this.getTypes(this.state.type)}<br />
               </div>
               <div className="form-chunk">
                 <label htmlFor="description">Description:</label><br />
@@ -169,8 +176,8 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
                 <small>{this.state.description.length + ' / 500'}</small><br />
               </div>
               <div className="form-chunk">
-                {this.getResolvers(rt.resolver)}
-                {this.getStatuses(rt.status)}<br />
+                {this.getResolvers(this.state.resolver)}
+                {this.getStatuses(this.state.status)}<br />
               </div>
             </div>
             <button className="btn btn-primary" type="submit">Submit</button>
