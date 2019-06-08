@@ -26,7 +26,7 @@ interface IUpdateReimbursementProps {
 interface IUpdateReimbursementState {
   reimbursementId: number;
   author: number;
-  amount: string;
+  amount: number;
   dateSubmitted: number;
   dateResolved: number;
   description: string;
@@ -41,7 +41,7 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
     this.state = {
       reimbursementId: 0,
       author: 0,
-      amount: '',
+      amount: 0,
       dateSubmitted: 0,
       dateResolved: 0,
       description: '',
@@ -54,7 +54,8 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
   update = (event: React.FormEvent) => {
     event.preventDefault();
     let rt = this.state;
-    this.props.updateReimbursement(new Reimbursement(rt.reimbursementId, rt.author, parseInt(rt.amount), rt.dateSubmitted, rt.dateResolved, rt.description, rt.resolver, rt.status, rt.type), 'status', 1, this.props.statuses, this.props.types);
+    console.log(rt);
+    this.props.updateReimbursement(new Reimbursement(rt.reimbursementId, rt.author, rt.amount, rt.dateSubmitted, rt.dateResolved, rt.description, rt.resolver, rt.status, rt.type), 'status', 1, this.props.statuses, this.props.types);
     this.props.history.push('/dashboard/reimbursements');
   }
 
@@ -64,7 +65,7 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
         this.setState({
           reimbursementId: rt.reimbursementId,
           author: rt.author,
-          amount: rt.amount + '',
+          amount: rt.amount,
           dateSubmitted: rt.dateSubmitted,
           dateResolved: rt.dateResolved,
           description: rt.description,
@@ -79,7 +80,7 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
   handleAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value.match(/^[0-9]*\.?[0-9]{0,2}$/)) {
       this.setState({
-        amount: event.target.value
+        amount: parseInt(event.target.value)
       });
     }
   }
@@ -111,7 +112,6 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
   }
 
   getResolvers = (id: number) => {
-    console.log(id);
     if (!this.state.resolver || this.state.resolver <= 0) return <></>;
     let options = <>
       <label htmlFor="resolver">Resolver:&nbsp;</label>
@@ -123,7 +123,6 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
   }
 
   getStatuses = (id: number) => {
-    console.log(id);
     if (!this.state.resolver || this.state.resolver <= 0) return <></>;
     let statuses = <>
       <label htmlFor="status">Status:&nbsp;</label>
@@ -135,7 +134,6 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
   }
 
   getTypes = (id: number) => {
-    console.log(id);
     if (!this.state.resolver || this.state.resolver <= 0) return <></>;
     let types = <>
       <label htmlFor="type">Type:&nbsp;</label>
@@ -167,7 +165,7 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
               </div>
               <div className="form-chunk">
                 <label htmlFor="amount">Amount:&nbsp;</label>
-                <input name="amount" className="form-control" type="text" value={this.state.amount} onChange={this.handleAmount} /><br />
+                <input name="amount" className="form-control" type="text" value={isNaN(this.state.amount) ? '' : this.state.amount} onChange={this.handleAmount} /><br />
                 {this.getTypes(this.state.type)}<br />
               </div>
               <div className="form-chunk">
