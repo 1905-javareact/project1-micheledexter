@@ -78,15 +78,25 @@ class ViewReimbursements extends Component<IViewReimbursementsProps, IViewReimbu
   }
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      search: event.target.value
-    });
+    if (event.target.value.match(/^[\s0-9a-zA-Z_!@#%&<>:;'"=,{}$*^.?()[\]\\|/-]*$/)) {
+      this.setState({
+        search: event.target.value
+      });
+    }
   }
 
   filter = (input: string): FullReimbursement[] => {
+    let newInput = '';
+    for (let char of input) {
+      if (char.match(/[\s0-9a-zA-Z_!@#%&<>:;'"=,{}-]/)) {
+        newInput += char;
+      } else if (char.match(/[$*^.?()[\]\\|/]/)) {
+        newInput += '\\' + char;
+      }
+    }
     const results = this.props.reimbursements.filter(rt => {
-      if (input === '') return rt;
-      let re = '.*' + input.toLowerCase() + '.*';
+      if (newInput === '') return rt;
+      let re = '.*' + newInput.toLowerCase() + '.*';
       let regexp = new RegExp(re);
       return (('$' + rt.amount.toFixed(2)).match(regexp) || 
         this.getNameById(rt.author).toLowerCase().match(regexp) ||
