@@ -92,7 +92,7 @@ class ReimbursementCard extends Component<IReimbursementCardProps, IReimbursemen
   }
 
   checkResolve = (resolverId: number, authorId: number) => {
-    if (authorId !== this.props.currentUser.userId && this.props.reimbursement.status.statusId === 2) {
+    if (authorId !== this.props.currentUser.userId && this.props.reimbursement.status.statusId === 2 && resolverId === this.props.currentUser.userId) {
       return <>
         <button className="btn btn-success" onClick={() => this.setQuickUpdate(3)}>Accept</button>
         <button className="btn btn-danger" onClick={() => this.setQuickUpdate(4)}>Deny</button>
@@ -100,8 +100,10 @@ class ReimbursementCard extends Component<IReimbursementCardProps, IReimbursemen
     }
   }
 
-  checkEdit = (resolverId: number, authorId: number) => {
-
+  update = (resolverId: number, authorId: number) => {
+    if (authorId !== this.props.currentUser.userId) {
+      return <button className="btn btn-secondary" onClick={() => this.props.history.push(`/dashboard/update-reimbursement/${this.props.reimbursement.reimbursementId}`)}>Edit</button>
+    }
   }
 
   getAuthorName() {
@@ -149,7 +151,7 @@ class ReimbursementCard extends Component<IReimbursementCardProps, IReimbursemen
             <br />
             {this.checkAccept(this.props.reimbursement.resolver, this.props.reimbursement.author)}
             {this.checkResolve(this.props.reimbursement.resolver, this.props.reimbursement.author)}
-            {this.checkEdit(this.props.reimbursement.resolver, this.props.reimbursement.author)}
+            {this.update(this.props.reimbursement.resolver, this.props.reimbursement.author)}
           </CardFooter>
         </Card>
       </div>
