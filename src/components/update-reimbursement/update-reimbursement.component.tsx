@@ -55,7 +55,6 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
   update = (event: React.FormEvent) => {
     event.preventDefault();
     let rt = this.state;
-    console.log(rt);
     this.props.updateReimbursement(new Reimbursement(rt.reimbursementId, rt.author, rt.amount, rt.dateSubmitted, rt.dateResolved, rt.description, rt.resolver, rt.status, rt.type), 'status', 1, this.props.statuses, this.props.types);
     this.props.history.push('/dashboard/reimbursements');
   }
