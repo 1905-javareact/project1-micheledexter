@@ -91,7 +91,7 @@ class NavbarComponent extends React.Component<INavbarComponentProps, any> {
                   <DropdownItem onClick={() => this.goTo('/dashboard/user-reimbursements')}>
                     View Your Reimbursements
                   </DropdownItem>
-                  <DropdownItem>
+                  <DropdownItem onClick={() => this.goTo('/dashboard/submit-reimbursement')}>
                     Submit New Reimbursement
                   </DropdownItem>
                   {['admin', 'finance-manager'].includes(this.props.currentUser.role.role) ? <>

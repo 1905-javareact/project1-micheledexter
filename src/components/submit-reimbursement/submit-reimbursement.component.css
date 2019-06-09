@@ -1,0 +1,13 @@
+.SubmitReimbursement .form-control {
+  display: inline-block;
+}
+
+.SubmitReimbursement .form-group {
+  text-align: left;
+  width: 50%;
+}
+
+.SubmitReimbursement .container {
+  display: flex;
+  justify-content: center;
+}

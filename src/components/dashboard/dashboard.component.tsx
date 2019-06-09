@@ -13,6 +13,7 @@ import ViewUser from '../viewuser/viewuser.component';
 import ViewReimbursements from '../viewreimbursements/viewreimbursements.component';
 import UserReimbursements from '../user-reimbursements/user-reimbursements.component';
 import UpdateReimbursement from '../update-reimbursement/update-reimbursement.component';
+import SubmitReimbursement from '../submit-reimbursement/submit-reimbursement.component';
 
 interface IDashboardProps {
   currentUser: User;
@@ -60,6 +61,10 @@ class Dashboard extends Component<IDashboardProps, any> {
         <Route
           path="/dashboard/update-reimbursement/:id"
           component={UpdateReimbursement}
+        />
+        <Route
+          path="/dashboard/submit-reimbursement"
+          component={SubmitReimbursement}
         />
       </div>
     )
