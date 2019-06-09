@@ -7,6 +7,7 @@ import { IState } from '../../reducers';
 import { connect } from 'react-redux';
 import { History } from 'history';
 import { fetchUsers } from '../../actions/user.actions';
+import './edituser.component.css';
 
 interface IEditUserProps {
   history: History;
@@ -140,55 +141,72 @@ export class EditUser extends Component<IEditUserProps, any> {
   render() {
     return (
       <div className="EditUser">
-        <form className="form" onSubmit={this.submitChange}>
-          <label htmlFor="username">Username:&nbsp;</label>
-          <input 
-            name="username" 
-            value={this.state.user.username} 
-            onChange={this.handleChangeForUsername} 
-            placeholder="Username"
-            required
-          /><br />
-          <label htmlFor="password">Password:&nbsp;</label>
-          <input 
-            name="password" 
-            value={this.state.user.password} 
-            onChange={this.handleChangeForPassword}
-            disabled
-          /><br />
-          <label htmlFor="firstName">First Name:&nbsp;</label>
-          <input 
-            name="firstName" 
-            value={this.state.user.firstName} 
-            onChange={this.handleChangeForFirstname} 
-            placeholder="First Name"
-            required
-          /><br />
-          <label htmlFor="lastName">Last Name:&nbsp;</label>
-          <input 
-            name="lastName" 
-            value={this.state.user.lastName} 
-            onChange={this.handleChangeForLastname} 
-            placeholder="Last Name"
-            required
-          /><br />
-          <label htmlFor="email">Email Address:&nbsp;</label>
-          <input 
-            name="email" 
-            value={this.state.user.email} 
-            onChange={this.handleChangeForEmail} 
-            placeholder="Email Address"
-            required
-          /><br />
-          <label htmlFor="role">Role:&nbsp;</label>
-          <select name="role" value={this.state.user.role.role} onChange={this.handleChangeForRole}>
-            <option value='admin'>Admin</option>
-            <option value='finance-manager'>Finance Manager</option>
-            <option value='employee'>Employee</option>
-          </select><br />
-          {this.state.change ? <p>Updated!</p>: ''}
-          <input type="submit" value="Submit" />
-        </form>
+        <h1>Edit User</h1>
+        <hr />
+        <div className="container">
+          <form className="form form-group" onSubmit={this.submitChange}>
+            <div className="form-chunks">
+              <div className="form-chunk">
+                <label htmlFor="username">Username:&nbsp;</label>
+                <input 
+                  className="form-control"
+                  name="username" 
+                  value={this.state.user.username} 
+                  onChange={this.handleChangeForUsername} 
+                  placeholder="Username"
+                  required
+                /><br />
+                <label htmlFor="password">Password:&nbsp;</label>
+                <input 
+                  className="form-control"
+                  name="password" 
+                  value={this.state.user.password} 
+                  onChange={this.handleChangeForPassword}
+                  disabled
+                /><br />
+              </div>
+              <div className="form-chunk">
+                <label htmlFor="firstName">First Name:&nbsp;</label>
+                <input 
+                  className="form-control"
+                  name="firstName" 
+                  value={this.state.user.firstName} 
+                  onChange={this.handleChangeForFirstname} 
+                  placeholder="First Name"
+                  required
+                /><br />
+                <label htmlFor="lastName">Last Name:&nbsp;</label>
+                <input 
+                  className="form-control"
+                  name="lastName" 
+                  value={this.state.user.lastName} 
+                  onChange={this.handleChangeForLastname} 
+                  placeholder="Last Name"
+                  required
+                /><br />
+              </div>
+              <div className="form-chunk">
+                <label htmlFor="email">Email Address:&nbsp;</label>
+                <input 
+                  className="form-control"
+                  name="email" 
+                  value={this.state.user.email} 
+                  onChange={this.handleChangeForEmail} 
+                  placeholder="Email Address"
+                  required
+                /><br />
+                <label htmlFor="role">Role:&nbsp;</label>
+                <select className="form-control" name="role" value={this.state.user.role.role} onChange={this.handleChangeForRole}>
+                  <option value='admin'>Admin</option>
+                  <option value='finance-manager'>Finance Manager</option>
+                  <option value='employee'>Employee</option>
+                </select><br />
+              </div>
+              {this.state.change ? <p>Updated!</p>: ''}
+              <input type="submit" value="Submit" />
+            </div>
+          </form>
+        </div>
       </div>
     )
   }

@@ -1,0 +1,13 @@
+.EditUser .form-control {
+  display: inline-block;
+}
+
+.EditUser .form-group {
+  text-align: left;
+  width: 50%;
+}
+
+.EditUser .container {
+  display: flex;
+  justify-content: center;
+}
