@@ -100,7 +100,7 @@ class ReimbursementCard extends Component<IReimbursementCardProps, IReimbursemen
     }
   }
 
-  update = (resolverId: number, authorId: number) => {
+  update = (authorId: number) => {
     if (authorId !== this.props.currentUser.userId && this.props.reimbursement.status.statusId !== 1) {
       return <button className="btn btn-secondary" onClick={() => this.props.history.push(`/dashboard/update-reimbursement/${this.props.reimbursement.reimbursementId}`)}>Edit</button>
     }
@@ -151,7 +151,7 @@ class ReimbursementCard extends Component<IReimbursementCardProps, IReimbursemen
             <br />
             {this.checkAccept(this.props.reimbursement.resolver, this.props.reimbursement.author)}
             {this.checkResolve(this.props.reimbursement.resolver, this.props.reimbursement.author)}
-            {this.update(this.props.reimbursement.resolver, this.props.reimbursement.author)}
+            {this.update(this.props.reimbursement.author)}
           </CardFooter>
         </Card>
       </div>

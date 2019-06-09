@@ -62,7 +62,6 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
 
   componentDidMount() {
     checkUserPermission(this.props.history, this.props.currentUser.role.role, ['admin', 'finance-manager']);
-    this.props.history.push('/dashboard');
     for (let rt of this.props.reimbursements) {
       if (rt.reimbursementId === +this.props.match.params.id) {
         this.setState({
@@ -181,6 +180,7 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
                 {this.getStatuses(this.state.status)}<br />
               </div>
             </div>
+            <button className="btn btn-secondary" onClick={() => this.props.history.goBack()}>Cancel</button>
             <button className="btn btn-primary" type="submit">Submit</button>
           </form>
         </div>

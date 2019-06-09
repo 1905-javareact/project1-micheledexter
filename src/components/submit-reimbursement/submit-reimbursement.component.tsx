@@ -63,9 +63,9 @@ class SubmitReimbursement extends Component<ISubmitReimbursementProps, ISubmitRe
 
   sendReimbursement = async (reimbursement: Reimbursement) => {
     try {
-      let response = await apiClient.post('/reimbursement', reimbursement);
+      let response = await apiClient.post('/reimbursements', reimbursement);
       if (response.status === 200) {
-        this.props.history.push('/');
+        this.props.history.push(['admin', 'finance-manager'].includes(this.props.currentUser.role.role) ? `/dashboard/${this.props.currentUser.role.role}` : '/dashboard');
       }
     } catch(e) {
       console.log(`Something went wrong: ${e}`);
