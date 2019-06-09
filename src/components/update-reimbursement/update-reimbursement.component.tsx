@@ -7,6 +7,7 @@ import { History } from 'history';
 import { updateReimbursement } from '../../actions/reimbursement.actions';
 import './update-reimbursement.component.css';
 import { epochDateToStringDate } from '../../utilities/convert';
+import { checkUserPermission } from '../../utilities/handle';
 
 interface IUpdateReimbursementProps {
   users: User[];
@@ -60,6 +61,8 @@ class UpdateReimbursement extends Component<IUpdateReimbursementProps, IUpdateRe
   }
 
   componentDidMount() {
+    checkUserPermission(this.props.history, this.props.currentUser.role.role, ['admin', 'finance-manager']);
+    this.props.history.push('/dashboard');
     for (let rt of this.props.reimbursements) {
       if (rt.reimbursementId === +this.props.match.params.id) {
         this.setState({
